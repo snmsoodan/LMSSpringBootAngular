@@ -1,0 +1,138 @@
+<div class="container" ng-controller="borrowerController">
+
+
+	<h1>List of Borrowers in GCIT LMS</h1>
+	<div class="col-md-4 mb-3">
+		<label for="validationCustomUsername">Search by Author Names</label>
+		<div class="input-group">
+			<input type="text" class="form-control" id="validationCustomUsername"
+				ng-model="searchString" placeholder="Borrower Name"
+				aria-describedby="inputGroupPrepend" required
+				ng-change="searchBorrowers(searchString)">
+			<div class="invalid-feedback">Please choose a borrower name.</div>
+		</div>
+	</div>
+
+	<div class="col-md-10">
+		<ul class="pagination">
+			<li class="page-item"><a class="page-link" href=""
+				ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li class="page-item"
+				ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a class="page-link"
+				href="" ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li class="page-item"><a class="page-link" href=""
+				ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+
+	<button class="button pull-right" data-toggle="modal"
+		data-target="#addModal"
+		style="margin-left: 1114px; background-color: orange">
+		<span>Add Borrower</span>
+	</button>
+
+	<!-- Modal -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Add Borrower</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						Enter Borrower Name:<br /> 
+						<input type="text" maxlength="45" ng-model="name"> <br /><br />
+						
+						Enter Address:<br /> 
+						<input type="text" maxlength="45" ng-model="address" > <br /><br />
+						
+						Enter Phone No. :<br /> 
+						<input type="text" maxlength="45" ng-model="phone"> <br />
+
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						ng-click="addBorrower(name,address,phone)">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<table class="table" style="width: 1300">
+		<thead>
+			<tr class="table-primary">
+				<th scope="col">#</th>
+				<th scope="col">Borrower Name</th>
+				<th scope="col">Address</th>
+				<th scope="col">PhNo.</th>
+				<th scope="col">Edit.</th>
+				<th scope="col">Delete</th>
+			</tr>
+		</thead>
+
+
+
+
+		<tbody>
+
+			<tr
+				ng-repeat="b in borrowers| startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+				<th scope="row">{{$index+1}}</th>
+				<td>{{b.name}}</td>
+				<td>{{b.address}}</td>
+				<td>{{b.phone}}</td>
+				<td><button class="btn btn-primary" data-toggle="modal"
+						data-target="#editModal" ng-click="editBorrower(b)">Edit</button></td>
+				<td><button ng-click="deleteBorrower(b)" class="btn btn-danger">Delete</button></td>
+			</tr>
+
+		</tbody>
+	</table>
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Update Borrower Details</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						Enter Borrower Name to be edited:<br /> 
+						<input type="text" maxlength="45" ng-model="borrower.name" value="borrower.name"><br /><br />
+						
+						Enter Address to be edited:<br /> 
+						<input type="text" maxlength="45" ng-model="borrower.address" value="borrower.address"><br /><br />
+						
+						Enter PhNo. to be edited:<br /> 
+						<input type="text" maxlength="45" ng-model="borrower.phone" value="borrower.phone">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						ng-click="listBorrowers()" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary"
+						ng-click="updateBorrower()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
